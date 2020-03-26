@@ -25,3 +25,5 @@ Route::middleware(['can:manage users'])->group(function() {
     Route::resource('users', 'UserController')
         ->except(['create', 'store']);
 });
+
+Route::resource('feedbacks', 'FeedbackController');

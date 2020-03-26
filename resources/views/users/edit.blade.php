@@ -5,8 +5,11 @@
     <div class="container-fluid">
         <h1>{{ $user->name }}</h1>
         @if (session()->has('success'))
-            <div class="alert alert-success">
+            <div class="alert alert-dismissible alert-success" role="alert">
                 {{ session('success') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
         @endif
         <p>
