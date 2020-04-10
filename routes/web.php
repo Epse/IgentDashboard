@@ -29,3 +29,5 @@ Route::middleware(['can:manage users'])->group(function() {
 Route::resource('feedbacks', 'FeedbackController');
 Route::resource('surveys', 'SurveyController');
 Route::apiResource('surveys.questions', 'SurveyQuestionController')->shallow();
+Route::get('surveys/{survey}/fill', 'SurveyResponseController@fill')->name('surveys.fill');
+Route::post('surveys/{survey}/fill', 'SurveyResponseController@store');
