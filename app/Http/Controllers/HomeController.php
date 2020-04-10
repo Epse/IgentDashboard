@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Survey;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +24,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('home', [
+            // We want the latest surveys first
+            'surveys' => Survey::orderBy('created_at', 'desc')->get(),
+        ]);
     }
 }
