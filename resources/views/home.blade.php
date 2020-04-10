@@ -18,7 +18,12 @@
             <div class="row justify-content-center mb-3">
                 <div class="col-md-8">
                     <div class="card">
-                        <div class="card-header">{{ $survey->title }}</div>
+                        <div class="card-header">
+                            {{ $survey->title }}
+                            @if ($survey->answered)
+                            <span class="badge badge-secondary">Ingevuld</span>
+                            @endif
+                        </div>
                         <div class="card-body">
                             <p>
                                 {{ $survey->description }}

@@ -22,8 +22,7 @@
     <body>
         <div id="app">
             <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-                <div class="container">
-                    @guest
+                <div class="container"> @guest
                     <a class="navbar-brand" href="{{ url('/') }}">
                         {{ config('app.name', 'Laravel') }}
                     </a>
@@ -99,6 +98,16 @@
                     <div class="container">
                         <div class="alert alert-dismissible alert-success" role="alert">
                             {{ session('success') }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>
+                @endif
+                @if (session()->has('error'))
+                    <div class="container">
+                        <div class="alert alert-dismissible alert-danger" role="alert">
+                            {{ session('error') }}
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>

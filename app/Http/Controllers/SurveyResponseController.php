@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Survey;
+use App\SurveyQuestion;
+use App\Http\Requests\SurveyResponseStoreRequest;
 use Illuminate\Http\Request;
 
 class SurveyResponseController extends Controller
@@ -20,8 +22,20 @@ class SurveyResponseController extends Controller
         ]);
     }
 
-    public function store(Request $request, Survey $survey)
+    public function store(SurveyResponseStoreRequest $request, Survey $survey)
     {
-        dd($request);
+        foreach ($request->validated()['response'] as $id => $value) {
+            $question = SurveyQuestion::find($id);
+            if (is_null($question)) {
+                return redirect()->back()->withError("Ongeldige question-id '{$id}' meegegeven.");
+            }
+
+            $question->answers()->create([
+                'response' => $value,
+                'user_id' => \Auth::user()->id,
+            ]);
+        }
+
+        return redirect()->route('home')->withSuccess('Je antwoord is opgeslagen.');
     }
 }
