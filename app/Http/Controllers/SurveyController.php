@@ -13,8 +13,12 @@ class SurveyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->wantsJson()) {
+            return Survey::orderBy('created_at', 'DESC')->get();
+        }
+
         return view('surveys.index', [
             'surveys' => Survey::orderBy('created_at', 'DESC')->get(),
         ]);
