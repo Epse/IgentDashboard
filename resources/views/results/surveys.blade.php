@@ -10,7 +10,9 @@
         </div>
         <div class="row">
             <div class="col">
-                
+                <survey-results
+                    survey-index-url="{{ route('surveys.index') }}"
+                ></survey-results>
             </div>
         </div>
     </div>
