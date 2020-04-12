@@ -46,8 +46,13 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button">Enquêtes</a>
                                 <div class="dropdown-menu">
+                                    @can('manage surveys')
                                     <a class="dropdown-item" href="{{ route('surveys.index') }}">Alle enquêtes</a>
                                     <a class="dropdown-item" href="{{ route('surveys.create') }}">Nieuwe enquête</a>
+                                    @endcan
+                                    @can('view survey results')
+                                    <a class="dropdown-item" href="{{ route('results.surveys') }}">Resultaten</a>
+                                    @endcan
                                 </div>
                             </li>
                             @can('manage users')
