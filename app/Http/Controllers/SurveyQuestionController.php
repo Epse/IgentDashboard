@@ -17,7 +17,7 @@ class SurveyQuestionController extends Controller
      */
     public function index(Survey $survey)
     {
-        //
+        return $survey->questions;
     }
 
     /**
@@ -42,7 +42,7 @@ class SurveyQuestionController extends Controller
      */
     public function show(SurveyQuestion $question)
     {
-        //
+        return $question;
     }
 
     /**
