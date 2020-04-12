@@ -39,7 +39,6 @@
 
                 axios.get(`/questions/${q.id}/answers`)
                      .then(res => {
-                         console.log(res.data);
                          this.answers = res.data;
                      });
             },
