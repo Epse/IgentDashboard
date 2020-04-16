@@ -1,6 +1,6 @@
 <template>
     <div class="row">
-        <div class="col-md-6 my-3" v-for="question in questions" :key="question.id">
+        <div class="col-lg-6 my-3" v-for="question in questions" :key="question.id">
             <div class="card">
                 <div class="card-header">{{ question.question }}</div>
                 <div class="card-body">

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SurveyQuestion extends Model
 {
-    protected $fillable = ['question', 'type'];
+    protected $fillable = ['question', 'type', 'min', 'max'];
 
     public function question()
     {

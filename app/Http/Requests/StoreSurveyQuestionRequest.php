@@ -26,6 +26,8 @@ class StoreSurveyQuestionRequest extends FormRequest
         return [
             'question' => 'string|filled|required',
             'type' => 'string|required|in:boolean,scale',
+            'min' => 'integer|required',
+            'max' => 'integer|required|gt:min',
         ];
     }
 }

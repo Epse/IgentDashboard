@@ -75,6 +75,13 @@
                                 </select>
                             </div>
                             <div class="form-group">
+                                <p class="form-text">Indien je het type 'schaal' koos, kan je hier een minimum en maximum instellen.</p>
+                                <label for="min">Minimale waarde</label>
+                                <input name="min" id="min" step="1" class="form-control" type="number" value="{{ old('min') }}"/>
+                                <label for="max">Maximale waarde</label>
+                                <input name="max" id="max" step="1" class="form-control" type="number" value="{{ old('max') }}"/>
+                            </div>
+                            <div class="form-group">
                                 <button class="btn btn-primary" type="submit">Opslaan</button>
                             </div>
                         </form>

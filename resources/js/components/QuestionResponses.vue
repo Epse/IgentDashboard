@@ -67,34 +67,42 @@
                 }, []);
 
                 const y = d3.scaleBand()
-                            .domain(d3.range(
-                                d3.min(data, d => d.key),
-                                // Go one over, to make sure it all shows up
-                                d3.max(data, d => d.key) + 1,
+                            .domain(
+                                this.question.type == 'boolean' ?
+                                ['Nee', 'Ja'] :
+                                d3.range(
+                                this.question.min,
+                                // range is exclusive
+                                this.question.max + 1,
                                 1
                             ))
                             .rangeRound([margin.top, height - margin.bottom])
                             .padding(0.1);
 
                 // Cache these
-                // Also add 1 margin, to make sure everything actually shows up
-                const minCount = d3.min(data, d => d.count) - 1;
                 const maxCount = d3.max(data, d => d.count);
 
-                const x = d3.scaleLinear()
-                            .domain([minCount, maxCount])
-                            .range([margin.left, width - margin.right]);
+                const key = (res) => {
+                    if (this.question.type == 'boolean') {
+                        return res.key == 0 ? "Nee" : "Ja";
+                    }
+                    else {
+                        return res.key;
+                    }
+                };
 
-                console.log(x.domain());
+                const x = d3.scaleLinear()
+                            .domain([0, maxCount])
+                            .range([margin.left, width - margin.right]);
 
                 svg.append("g")
                    .attr("fill", "steelblue")
                    .selectAll("rect")
                    .data(data)
                    .join("rect")
-                   .attr("x", x(minCount))
-                   .attr("y", d => y(d.key))
-                   .attr("width", d => x(d.count) - x(minCount))
+                   .attr("x", x(0))
+                   .attr("y", d => y(key(d)))
+                   .attr("width", d => x(d.count) - x(0))
                    .attr("height", y.bandwidth());
 
                 svg.append("g")
@@ -106,7 +114,7 @@
                    .data(data)
                    .join("text")
                    .attr("x", d => x(d.count) - 4) // 4 padding
-                   .attr("y", d => y(d.key) + y.bandwidth() / 2)
+                   .attr("y", d => y(key(d)) + y.bandwidth() / 2)
                    .attr("dy", "0.35em")
                    .text(d => d.count);
 

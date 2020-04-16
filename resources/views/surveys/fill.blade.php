@@ -34,8 +34,8 @@
                             </div>
                         @elseif ($question->type == 'scale')
                             {{-- More radio buttons?? --}}
-                            <input class="form-control-range" name="response[{{ $question->id }}]" type="range" min="0" max="10" step="1" value="5" required />
-                            <small class="form-text text-muted">Links is 0, rechts is 10.</small>
+                            <input class="form-control-range" name="response[{{ $question->id }}]" type="range" min="{{ $question->min }}" max="{{ $question->max }}" step="1" required />
+                            <small class="form-text text-muted">Links is {{ $question->min }}, rechts is {{ $question->max }}.</small>
                         @endif
                         </div>
                     </div>
