@@ -39,6 +39,9 @@
                      });
             },
         },
+        components: {
+            'question-responses': require('./QuestionResponses.vue').default,
+        },
         methods: {
         },
     };

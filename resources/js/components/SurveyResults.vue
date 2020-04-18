@@ -70,6 +70,9 @@
                      });
             },
         },
+        components: {
+            'survey-responses': require('./SurveyResponses.vue').default,
+        },
     };
 </script>
 
