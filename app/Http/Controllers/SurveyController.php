@@ -43,7 +43,7 @@ class SurveyController extends Controller
     public function store(StoreSurveyRequest $request)
     {
         $survey = Survey::create($request->validated());
-        return redirect()->route('surveys.show', $survey);
+        return redirect()->route('surveys.edit', $survey);
     }
 
     /**
@@ -54,9 +54,6 @@ class SurveyController extends Controller
      */
     public function show(Survey $survey)
     {
-        return view('surveys.show', [
-            'survey' => $survey,
-        ]);
     }
 
     /**
@@ -67,7 +64,9 @@ class SurveyController extends Controller
      */
     public function edit(Survey $survey)
     {
-        //
+        return view('surveys.edit', [
+            'survey' => $survey,
+        ]);
     }
 
     /**

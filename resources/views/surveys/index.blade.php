@@ -23,7 +23,7 @@
                                 <th scope="row">{{ $survey->title }}</th>
                                 <td>{{ $survey->questions()->count() }}</td>
                                 <td>
-                                    <a class="btn btn-primary" href="{{ route('surveys.show', $survey) }}">Bewerk</a>
+                                    <a class="btn btn-primary" href="{{ route('surveys.edit', $survey) }}">Bewerk</a>
                                 </td>
                             </tr>
                         @endforeach
