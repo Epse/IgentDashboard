@@ -13,7 +13,9 @@ class ImportSensorsCommand extends Command
 {--dry-run : When set, print the database changes, but don\'t run them}
 {--Y|yes : Auto-confirm all questions.}';
 
-    protected $description = 'Imports a sensor list into the database.';
+    protected $description = 'Imports a sensor list into the database.
+This command can safely be run multiple times, it will only add new sensors,
+not create duplicates.';
 
     public function __construct()
     {
