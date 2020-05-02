@@ -17,6 +17,15 @@
         <form action="{{ route('surveys.fill', $survey) }}" method="post">
             @csrf
 
+            <div class="row">
+                <div class="col">
+                    <h3>Ruimte</h3>
+                    <div class="form-group">
+                        <input class="form-control" name="room" type="text" value="{{ old('room') }}"/>
+                    </div>
+                </div>
+            </div>
+
             @foreach ($questions as $question)
                 <div class="row">
                     <div class="col">

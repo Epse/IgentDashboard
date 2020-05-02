@@ -24,7 +24,8 @@ class SurveyResponseController extends Controller
 
     public function store(SurveyResponseStoreRequest $request, Survey $survey)
     {
-        foreach ($request->validated()['response'] as $id => $value) {
+        $data = $request->validated();
+        foreach ($data['response'] as $id => $value) {
             $question = SurveyQuestion::find($id);
             if (is_null($question)) {
                 return redirect()->back()->withError("Ongeldige question-id '{$id}' meegegeven.");
@@ -33,6 +34,7 @@ class SurveyResponseController extends Controller
             $question->answers()->create([
                 'response' => $value,
                 'user_id' => \Auth::user()->id,
+                'room' => $data['room'],
             ]);
         }
 

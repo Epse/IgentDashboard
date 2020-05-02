@@ -26,6 +26,7 @@ class SurveyResponseStoreRequest extends FormRequest
         return [
             'response' => 'required|array',
             'response.*' => 'integer|min:0',
+            'room' => 'required|string',
         ];
     }
 }
