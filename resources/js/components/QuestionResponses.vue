@@ -1,15 +1,20 @@
 <template>
     <div>
         <yes-no-chart
-            v-if="question.type == 'boolean'"
+            v-if="question.type == 'boolean' && false"
             :aggregates="aggregates"
         ></yes-no-chart>
         <vertical-bar-chart
-            v-if="question.type == 'scale'"
+            v-if="question.type == 'scale' && false"
             :aggregates="aggregates"
             :min="question.min"
             :max="question.max"
         ></vertical-bar-chart>
+        <map-chart
+            :answers="answers"
+            :min="question.min"
+            :max="question.max"
+        ></map-chart>
         <details>
             <summary>Statistische gegevens</summary>
             <small v-if="question.type == 'boolean'">
@@ -116,7 +121,8 @@ export default {
     },
     components: {
         "vertical-bar-chart": require("./charts/VerticalBarChart.vue").default,
-        "yes-no-chart": require("./charts/YesNoChart.vue").default
+        "yes-no-chart": require("./charts/YesNoChart.vue").default,
+        "map-chart": require('./charts/MapChart.vue').default,
     }
 };
 </script>
