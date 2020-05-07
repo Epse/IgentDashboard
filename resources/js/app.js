@@ -34,6 +34,7 @@ import last from 'lodash/last';
 
 //Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('survey-results', require('./components/SurveyResults.vue').default);
+Vue.component('rooms', require('./components/Rooms.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

@@ -11,17 +11,21 @@ class SurveyQuestionAnswerController extends Controller
 {
     public function index(Request $request, SurveyQuestion $question)
     {
-        if (! $request->has('since')) {
-            return $question->answers;
+        $query = $question->answers();
+        if ($request->has('since')) {
+            try {
+                $since = Carbon::parse($request->get('since'));
+                $query = $query->where('created_at', '>',
+                                       $since->toDateTimeString());
+            } catch (\Exception $e) {
+                abort(403, "Bad timestamp passed. Message: {$e->getMessage()}");
+            }
         }
-        try {
-            $since = Carbon::parse($request->get('since'));
-            return $question->answers()->where('created_at', '>',
-                                               $since->toDateTimeString())
-                            ->get();
-        } catch (\Exception $e) {
-            abort(403, "Bad timestamp passed. Message: {$e->getMessage()}");
+
+        if ($request->has('room')) {
+            $query->where('room', $request->get('room'));
         }
+        return $query->get();
     }
 
     public function store(Request $request)

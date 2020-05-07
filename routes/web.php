@@ -35,3 +35,6 @@ Route::apiResource('questions.answers', 'SurveyQuestionAnswerController')->shall
 Route::get('results/surveys', 'ResultsController@surveys')
     ->middleware('can:view survey results')
     ->name('results.surveys');
+Route::apiResource('sensors', 'SensorController');
+Route::apiResource('sensors.data', 'SensorDataController')->shallow();
+Route::resource('rooms', 'RoomController')->only(['index', 'show']);
