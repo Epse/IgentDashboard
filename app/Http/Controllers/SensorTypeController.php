@@ -2,28 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Sensor;
+use App\SensorType;
 use Illuminate\Http\Request;
 
-class SensorController extends Controller
+class SensorTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $query = Sensor::with('type');
-        if ($request->has('room')) {
-            $query->where('room', $request->get('room'));
-        }
+        return SensorType::all();
+    }
 
-        if ($request->has('type')) {
-            $query->where('sensor_type_id', $request->get('type'));
-        }
-
-        return $query->get();
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
     }
 
     /**
@@ -40,10 +41,21 @@ class SensorController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Sensor  $sensor
+     * @param  \App\SensorType  $sensorType
      * @return \Illuminate\Http\Response
      */
-    public function show(Sensor $sensor)
+    public function show(SensorType $sensorType)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\SensorType  $sensorType
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(SensorType $sensorType)
     {
         //
     }
@@ -52,10 +64,10 @@ class SensorController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Sensor  $sensor
+     * @param  \App\SensorType  $sensorType
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Sensor $sensor)
+    public function update(Request $request, SensorType $sensorType)
     {
         //
     }
@@ -63,10 +75,10 @@ class SensorController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Sensor  $sensor
+     * @param  \App\SensorType  $sensorType
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Sensor $sensor)
+    public function destroy(SensorType $sensorType)
     {
         //
     }

@@ -11,7 +11,6 @@ class SensorDataController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param  \App\Sensor  $sensor
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request, Sensor $sensor)

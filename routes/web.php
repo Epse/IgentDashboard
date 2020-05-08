@@ -38,3 +38,4 @@ Route::get('results/surveys', 'ResultsController@surveys')
 Route::apiResource('sensors', 'SensorController');
 Route::apiResource('sensors.data', 'SensorDataController')->shallow();
 Route::resource('rooms', 'RoomController')->only(['index', 'show']);
+Route::apiResource('sensortypes', 'SensorTypeController')->only(['index']);
