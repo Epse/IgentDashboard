@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Log;
 use App\Sensor;
 use Illuminate\Http\Request;
 
@@ -21,6 +22,12 @@ class SensorController extends Controller
 
         if ($request->has('type')) {
             $query->where('sensor_type_id', $request->get('type'));
+        }
+
+        if ($request->has('data')) {
+            $query->with(['datapoints' => function($query) {
+                $query->orderBy('created_at', 'desc');
+            }]);
         }
 
         return $query->get();

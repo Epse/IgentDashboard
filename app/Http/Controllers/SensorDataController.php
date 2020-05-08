@@ -15,7 +15,7 @@ class SensorDataController extends Controller
      */
     public function index(Request $request, Sensor $sensor)
     {
-        $query =  $sensor->datapoints()->orderBy('created_at', 'desc');
+        $query =  $sensor->datapoints()->with('sensor')->orderBy('created_at', 'desc');
 
         if ($request->has('since')) {
             try {
