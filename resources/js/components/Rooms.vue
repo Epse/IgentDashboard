@@ -16,8 +16,17 @@
                 </select>
             </div>
             <div class="col">
-                <input :id="uid + '-limit'" type="checkbox" v-model="limit" value="1"/>
-                <label :for="uid + '-limit'">Enkel recentste meting</label>
+                <select v-model="since">
+                    <option value="hour">Laatste uur</option>
+                    <option value="day">Vandaag</option>
+                    <option value="week">Deze week</option>
+                    <option value="month">Deze maand</option>
+                    <option value="year">Dit jaar</option>
+                </select>
+            </div>
+            <div class="col">
+                <label>Start relatief tegenover</label>
+                <input type="date" v-model="relativeDate" />
             </div>
         </div>
         <div class="row">
@@ -29,6 +38,7 @@
 </template>
 
 <script>
+import * as moment from "moment";
 import * as d3 from "d3";
 const axios = require("axios").default;
 
@@ -44,7 +54,9 @@ export default {
             sensorType: -1,
             sensorTypes: [],
             data: [],
-            limit: false,
+            since: "hour",
+            relativeDate: moment().format("YYYY-MM-DD"),
+            interval: undefined
         };
     },
     props: {},
@@ -67,7 +79,10 @@ export default {
         data: function(val, old) {
             this.redraw();
         },
-        limit: function(val, old) {
+        since: function(val, old) {
+            this.getData();
+        },
+        relativeDate: function(val, old) {
             this.getData();
         },
         sensorType: function(val, old) {
@@ -80,16 +95,22 @@ export default {
     },
     methods: {
         getData: function() {
+            console.debug("pulling data");
             axios
                 .get("/sensors", {
                     params: {
                         type: this.sensorType,
                         data: true,
+                        since: moment(this.relativeDate)
+                            .startOf(this.since)
+                            .format("YYYY-MM-DDTHH:mm:ss"),
+                        until: moment(this.relativeDate)
+                            .endOf("day")
+                            .format("YYYY-MM-DDTHH:mm:ss")
                     }
                 })
                 .then(res => {
                     let newData = [];
-                    console.debug(res.data);
                     res.data.forEach(sensor => {
                         // Only add rooms we can draw
                         if (!(sensor.room in this.rooms)) {
@@ -101,18 +122,20 @@ export default {
                         }
 
                         let el = newData.find(e => sensor.room == e.room);
-                        if (! el) {
-                            newData.push({room: sensor.room, values: []});
+                        if (!el) {
+                            newData.push({ room: sensor.room, values: [] });
                             el = newData.find(e => sensor.room == e.room);
                         }
 
                         if (this.limit) {
                             el.values.push(sensor.datapoints[0].value);
                         } else {
-                            sensor.datapoints.forEach(dp => el.values.push(dp.value));
+                            sensor.datapoints.forEach(dp =>
+                                el.values.push(dp.value)
+                            );
                         }
                     });
-                    newData.map((el) => {
+                    newData.map(el => {
                         el.mean = d3.mean(el.values);
                         return el;
                     });
@@ -198,10 +221,7 @@ export default {
                 )
                 .attr(
                     "fill",
-                    d =>
-                        d3
-                            .color(colour(d.mean))
-                            .copy({ opacity: 0.7 }) + ""
+                    d => d3.color(colour(d.mean)).copy({ opacity: 0.7 }) + ""
                 );
 
             svg.append("g")
@@ -252,7 +272,10 @@ export default {
         this.getTypes();
     },
     mounted() {
-        this.pullRooms();
+        this.interval = setInteval(this.pullRooms, 60000);
+    },
+    beforeDestroy() {
+        clearInterval(this.interval);
     }
 };
 </script>

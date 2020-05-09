@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Log;
 use App\Sensor;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class SensorController extends Controller
@@ -25,8 +25,22 @@ class SensorController extends Controller
         }
 
         if ($request->has('data')) {
-            $query->with(['datapoints' => function($query) {
+            $query->with(['datapoints' => function($query) use ($request) {
                 $query->orderBy('created_at', 'desc');
+                if ($request->has('since')) {
+                    $date = Carbon::parse($request->get('since'));
+                    if ($date == false) {
+                        abort(403, "Bad date");
+                    }
+                    $query->where('created_at', '>=', $date->toDateTimeString());
+                }
+                if ($request->has('until')) {
+                    $date = Carbon::parse($request->get('until'));
+                    if ($date == false) {
+                        abort(403, "Bad date");
+                    }
+                    $query->where('created_at', '<=', $date->toDateTimeString());
+                }
             }]);
         }
 
