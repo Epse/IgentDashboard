@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class SensorTypeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:view data');
+    }
+
     /**
      * Display a listing of the resource.
      *

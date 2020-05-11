@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 
 class RoomController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:view data');
+    }
+
     public function index()
     {
         return view('rooms.index');

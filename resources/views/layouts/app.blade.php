@@ -52,6 +52,11 @@
                                     @endcan
                                 </div>
                             </li>
+                            @can('view data')
+                            <li class="nav-item">
+                                <a href="{{ route('rooms.index') }}" class="nav-link">Ruimtes</a>
+                            </li>
+                            @endcan
                             @can('manage users')
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('users.index') }}">Beheer gebruikers</a>
