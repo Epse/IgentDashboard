@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col">
                 <label for="">Type sensor</label>
-                <select v-model="sensorType">
+                <select v-model="sensorType" :disabled="lock">
                     <option value="-1" selected disabled
                         >Kies een sensortype</option
                     >
@@ -16,7 +16,7 @@
                 </select>
             </div>
             <div class="col">
-                <select v-model="since">
+                <select v-model="since" :disabled="lock">
                     <option value="hour">Laatste uur</option>
                     <option value="day">Vandaag</option>
                     <option value="week">Deze week</option>
@@ -26,7 +26,12 @@
             </div>
             <div class="col">
                 <label>Start relatief tegenover</label>
-                <input type="date" v-model="relativeDate" />
+                <input type="date" v-model="relativeDate" :disabled="lock" />
+            </div>
+        </div>
+        <div class="row" v-if="lock">
+            <div class="col">
+                Loading...
             </div>
         </div>
         <div class="row">
@@ -56,7 +61,8 @@ export default {
             data: [],
             since: "hour",
             relativeDate: moment().format("YYYY-MM-DD"),
-            interval: undefined
+            interval: undefined,
+            lock: false
         };
     },
     props: {},
@@ -95,14 +101,21 @@ export default {
     },
     methods: {
         getData: function() {
+            this.lock = true;
             console.debug("pulling data");
+            let startTime = moment(this.relativeDate);
+            startTime.seconds(moment().seconds());
+            startTime.minutes(moment().minutes());
+            startTime.hours(moment().hours());
+            startTime.startOf(this.since);
+            console.debug(startTime.format("YYYY-MM-DDTHH:mm:ss"));
+            console.debug(moment(this.relativeDate).endOf("day").format("YYYY-MM-DDTHH:mm:ss"));
             axios
                 .get("/sensors", {
                     params: {
                         type: this.sensorType,
                         data: true,
-                        since: moment(this.relativeDate)
-                            .startOf(this.since)
+                        since: startTime
                             .format("YYYY-MM-DDTHH:mm:ss"),
                         until: moment(this.relativeDate)
                             .endOf("day")
@@ -111,6 +124,7 @@ export default {
                 })
                 .then(res => {
                     let newData = [];
+                    console.debug(res.data);
                     res.data.forEach(sensor => {
                         // Only add rooms we can draw
                         if (!(sensor.room in this.rooms)) {
@@ -140,8 +154,12 @@ export default {
                         return el;
                     });
                     this.data = newData;
+                    this.lock = false;
                 })
-                .catch(err => console.error(err));
+                .catch(err => {
+                    console.error(err);
+                    this.lock = false;
+                });
         },
         getTypes: function() {
             axios
@@ -272,7 +290,8 @@ export default {
         this.getTypes();
     },
     mounted() {
-        this.interval = setInteval(this.pullRooms, 60000);
+        this.pullRooms();
+        this.interval = setInterval(this.pullRooms, 60000);
     },
     beforeDestroy() {
         clearInterval(this.interval);
