@@ -26,6 +26,7 @@ class StoreFeedbackRequest extends FormRequest
         return [
             'title' => 'string|required|filled',
             'contents' => 'string|required|filled',
+            'room' => 'string|required|filled',
         ];
     }
 }

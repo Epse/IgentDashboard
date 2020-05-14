@@ -10,6 +10,7 @@
             <div class="col">
                 <table class="table table-hover">
                     <thead>
+                        <th scope="col">Ruimte</th>
                         <th scope="col">Korte omschrijving</th>
                         <th scope="col">Datum</th>
                         <th scope="col">Inhoud</th>
@@ -18,6 +19,7 @@
                     <tbody>
                         @foreach ($feedbacks as $feedback)
                             <tr>
+                                <td>{{ $feedback->room  }}</td>
                                 <td>{{ $feedback->title }}</td>
                                 <td>{{ $feedback->created_at->format('d/m/Y H:i:s') }}</td>
                                 <td>{{ Str::limit($feedback->contents, 50) }}</td>

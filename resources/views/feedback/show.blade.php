@@ -10,12 +10,16 @@
         </div>
         <div class="row">
             <div class="col">
-                <small>
-                    Gepubliceerd op: {{ $feedback->created_at->format('d/m/Y H:i:s') }}
-                    @unless (is_null($feedback->user))
-                        door: {{ $feedback->user->name }}
-                    @endunless
-                </small>
+                Gepubliceerd op: {{ $feedback->created_at->format('d/m/Y H:i:s') }}
+                @unless (is_null($feedback->user))
+                    door: {{ $feedback->user->name }}
+                @endunless
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                Ruimte: {{ $feedback->room  }}
             </div>
         </div>
 

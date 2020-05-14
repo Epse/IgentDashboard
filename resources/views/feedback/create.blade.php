@@ -11,6 +11,10 @@
                 <form action="{{ route('feedbacks.store') }}" method="post">
                     @csrf
                     <div class="form-group">
+                        <label for="room">Ruimte</label>
+                        <input type="text" name="room" id="room" class="form-control" value="{{ old('room') }}" />
+                    </div>
+                    <div class="form-group">
                         <label for="title">Korte beschrijving van je feedback</label>
                         <input name="title" class="form-control" id="title" type="text" value="{{ old('contents') }}" />
                     </div>
