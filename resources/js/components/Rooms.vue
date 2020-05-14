@@ -108,8 +108,6 @@ export default {
             startTime.minutes(moment().minutes());
             startTime.hours(moment().hours());
             startTime.startOf(this.since);
-            console.debug(startTime.format("YYYY-MM-DDTHH:mm:ss"));
-            console.debug(moment(this.relativeDate).endOf("day").format("YYYY-MM-DDTHH:mm:ss"));
             axios
                 .get("/sensors", {
                     params: {
@@ -124,7 +122,6 @@ export default {
                 })
                 .then(res => {
                     let newData = [];
-                    console.debug(res.data);
                     res.data.forEach(sensor => {
                         // Only add rooms we can draw
                         if (!(sensor.room in this.rooms)) {
